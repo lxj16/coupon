@@ -1,0 +1,11 @@
+{% extends "couponApp/base.html" %}
+
+{% block content %}
+  <h2 class="font-weight-bold primary">Available Brands:</h2>
+
+  <ul>
+    {% for coupon in coupons %}
+      <li><a href="{% url 'couponDetail' coupon.couponSlug %}">{{ coupon.companyName }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
