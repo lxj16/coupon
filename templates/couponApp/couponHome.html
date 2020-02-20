@@ -95,7 +95,7 @@
     <!-- end page header -->
     <div class="clearfix"></div>
 
-    <section class="section2">
+    {% comment %} <section class="section2">
       <div class="container">
         <div class="title4">
           <h2><span class="line"></span>
@@ -198,13 +198,14 @@
 
       </div>
       <div class="clearfix margin_top10"></div>
-    </section>
+    </section> {% endcomment %}
 
-    <section class="section2">
+    {% for coupon in coupons %}
+     <section class="section2">
       <div class="container">
         <div class="title4">
           <h2><span class="line"></span>
-            Store 2
+            {{coupon}}
             <em>Lorem Ipsum is simply dummy text of theprinting and typesetting it has the randomised words Lorem ipsum
               dolor sit amet consectetuer adipiscing elit Suspendisse et justo Praesent mattis commodo augue Aliquam
               ornare.</em></h2>
@@ -257,6 +258,7 @@
       </div>
       <div class="clearfix margin_top10"></div>
     </section>
+    {% endfor %}
 
 
 

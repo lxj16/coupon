@@ -1,15 +1,22 @@
 from django.contrib import admin
-from .models import Coupon, Promote
+from .models import Coupon, Promote, User, Order, OrderItem, Brand
 
 # Register your models here.
+# class BrandInline(admin.TabularInline):
+#     model = Brand
+#     extra = 2
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ['companyName', 'expireDate', 'discountPercentage', 'used']
-    list_filter = ['companyName', 'expireDate', 'used']
-    search_fields = ['companyName']
-class PromoteCodeAdmin(admin.ModelAdmin):
-    list_display = ['code', 'startDate', 'expireDate', 'discountPercentage', 'active']
-    list_filter = ['active', 'startDate', 'expireDate']
-    search_fields = ['code']
+    list_display = ['brand', 'discountPercentage']
+    # list_filter = ['brand']
+    
+# class PromoteCodeAdmin(admin.ModelAdmin):
+#     list_display = ['code', 'startDate', 'expireDate', 'discountPercentage', 'active']
+#     list_filter = ['active', 'startDate', 'expireDate']
+#     search_fields = ['code']
 
 admin.site.register(Coupon, CouponAdmin)
-admin.site.register(Promote, PromoteCodeAdmin)
+admin.site.register(Promote)
+admin.site.register(User);
+admin.site.register(Order);
+admin.site.register(OrderItem);
+admin.site.register(Brand);
