@@ -2,15 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
-class Brand(models.Model):
-    name = models.CharField(max_length=25)
-
-    def __str__(self):
-        return self.name
-        
-#coupon for sale
 class Coupon(models.Model):
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE),
     discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     #couponSlug = models.SlugField(max_length=25, default='coupon slug')
     # expireDate = models.DateTimeField()
@@ -19,6 +11,16 @@ class Coupon(models.Model):
 
     def __str__(self):
         return str(self.discountPercentage)
+
+class Brand(models.Model):
+    name = models.CharField(max_length=25, default='')
+    description = models.CharField(max_length=100, default='')
+    coupon = models.ManyToManyField(Coupon)
+
+    def __str__(self):
+        return self.name
+        
+#coupon for sale
 
 #promote code for the website
 class Promote(models.Model):
@@ -39,6 +41,7 @@ class User(models.Model):
 
 class OrderItem(models.Model):
     item = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
     expireDate = models.DateTimeField()
     used = models.BooleanField(default=False)
     purchasedBy = models.ForeignKey(User, on_delete=models.CASCADE)

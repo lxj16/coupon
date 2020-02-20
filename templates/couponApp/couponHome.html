@@ -1,5 +1,5 @@
 {% extends "couponApp/base.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -200,34 +200,33 @@
       <div class="clearfix margin_top10"></div>
     </section> {% endcomment %}
 
-    {% for coupon in coupons %}
+    {% for brand in brands %}
      <section class="section2">
       <div class="container">
         <div class="title4">
           <h2><span class="line"></span>
-            {{coupon}}
-            <em>Lorem Ipsum is simply dummy text of theprinting and typesetting it has the randomised words Lorem ipsum
-              dolor sit amet consectetuer adipiscing elit Suspendisse et justo Praesent mattis commodo augue Aliquam
-              ornare.</em></h2>
+            {{brand}}
+            <em>{{brand.description}}</em></h2>
         </div>
 
         <div class="clearfix margin_top4"></div>
 
+        {% for coupon in brand.coupon.all %}
         <div class="features" data-anim-type="fade-in-left" data-anim-delay="200">
           <div class="fe-col">
             <div class="fe-col-wrp type1">
-              <h1>Coupon Name 1</h1>
-              <h2>8% off</h2>
-              <p>Lorem Ipsum is simply dummy text of theprinting and typesetting it has the randomised words Lorem ipsum
-                dolor sit amet consectetuer.</p>
+              <h1>{{coupon}}</h1>
+              <h2>{{coupon}}% off</h2>
+              <p>{{coupon}}</p>
               <div class="clearfix margin_top2"></div>
               <div class="readmore"><a href="#" class="btn linebtn two">Add to Cart</a></div>
             </div>
           </div>
         </div>
+        {% endfor %}
         <!--end col 1 -->
 
-        <div class="features" data-anim-type="fade-in-up" data-anim-delay="300">
+        {% comment %} <div class="features" data-anim-type="fade-in-up" data-anim-delay="300">
           <div class="fe-col">
             <div class="fe-col-wrp type1">
               <h1>Coupon Name</h1>
@@ -252,7 +251,7 @@
               <div class="readmore"><a href="#" class="btn linebtn two">Add to Cart</a></div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
         <!--end col 3 -->
 
       </div>
@@ -286,10 +285,10 @@
           </div>
           <div class="one_half last">
             <div class="payments"><span>Payments We Accept</span>
-              <img src="images/card-01.png" alt="">
-              <img src="images/card-02.png" alt="">
-              <img src="images/card-04.png" alt="">
-              <img src="images/card-05.png" alt="">
+              <img src="{% static 'images/card-01.png' %}" alt="">
+              <img src="{% static 'images/card-02.png' %}" alt="">
+              <img src="{% static 'images/card-04.png' %}" alt="">
+              <img src="{% static 'images/card-05.png' %}" alt="">
             </div>
           </div>
         </div>

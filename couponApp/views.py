@@ -1,6 +1,6 @@
-from django.shortcuts import render, HttpResponse
-from django.views.generic import ListView, DetailView, View
-from .models import Coupon
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, View, TemplateView
+from .models import Coupon, Brand, OrderItem, Order
 
 # Create your views here.
 def index(request):
@@ -10,15 +10,18 @@ def index(request):
     context = {'coupons': coupons}
     return render(request, 'couponApp/main.html', context)
 
-class HomeView(ListView):
-    model = Coupon
-    paginate_by = 10
+class HomeView(TemplateView):
     template_name = "couponApp/couponHome.html"
-
-    def get_context_data(self, **kwargs):
-        coupons = Coupon.objects.all()
-        context = {'coupons': coupons}
-        return context
+    print('lol')
+    def get(self, request):
+        brands = Brand.objects.all()
+        # coupons = list(brand.coupon.all())
+        # print('hahaha')
+        # print(coupons)
+        context = {
+            'brands': brands
+            }
+        return render(request, self.template_name, context)
 
 def couponDetail(request, couponSlug):
     try:
@@ -28,6 +31,13 @@ def couponDetail(request, couponSlug):
     context = {'companyName': companyName}
     return render(request, 'couponApp/couponDetail.html', context)
 
+def add_to_cart(request, discountPercentage):
+    item = get_object_or_404(Coupon, discountPercentage=discountPercentage)
+    order_item = OrderItem.objects.create(item=item)
+    order = Order.objects.create()
+    order.items.add(order_item)
+
+    return redirect('couponApp:couponHome')
 # class CouponDetailView(DetailView):
 #     model = Coupon
 #     slug_field = 'couponSlug'
