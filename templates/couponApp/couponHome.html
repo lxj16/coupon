@@ -71,7 +71,7 @@
                   <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                   <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                   <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                  <li class="last shopping-cart"><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                  <li class="last shopping-cart"><a href="{% url 'couponApp:checkout' %}"><i class="fa fa-shopping-cart"></i></a></li>
                 </ul>
               </div>
             </div>
@@ -216,7 +216,7 @@
           <div class="fe-col">
             <div class="fe-col-wrp type1">
               <h1>{{coupon}}</h1>
-              <h2>{{coupon}}% off</h2>
+              <h2>{{coupon}} off</h2>
               <p>{{coupon}}</p>
               <div class="clearfix margin_top2"></div>
               <div class="readmore"><a href="#" class="btn linebtn two">Add to Cart</a></div>

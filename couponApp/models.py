@@ -10,7 +10,7 @@ class Coupon(models.Model):
     #user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.discountPercentage)
+        return str(self.discountPercentage)+'%'
 
 class Brand(models.Model):
     name = models.CharField(max_length=25, default='')
@@ -40,6 +40,7 @@ class User(models.Model):
         return self.email
 
 class OrderItem(models.Model):
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     item = models.ForeignKey(Coupon, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     expireDate = models.DateTimeField()
@@ -47,7 +48,7 @@ class OrderItem(models.Model):
     purchasedBy = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.item
+        return f"{self.brand}'s {self.item} coupon"
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

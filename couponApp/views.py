@@ -12,7 +12,7 @@ def index(request):
 
 class HomeView(TemplateView):
     template_name = "couponApp/couponHome.html"
-    print('lol')
+    print('home')
     def get(self, request):
         brands = Brand.objects.all()
         # coupons = list(brand.coupon.all())
@@ -38,6 +38,19 @@ def add_to_cart(request, discountPercentage):
     order.items.add(order_item)
 
     return redirect('couponApp:couponHome')
+
+class CheckoutView(TemplateView):
+    template_name = "couponApp/checkout.html"
+    print('checkout')
+    def get(self, request):
+        brands = Brand.objects.all()
+        # coupons = list(brand.coupon.all())
+        # print('hahaha')
+        # print(coupons)
+        context = {
+            'brands': brands
+            }
+        return render(request, self.template_name, context)
 # class CouponDetailView(DetailView):
 #     model = Coupon
 #     slug_field = 'couponSlug'
