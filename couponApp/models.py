@@ -1,17 +1,22 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
-# Create your models here.
+from django.urls import reverse
+
 
 class Coupon(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     description = models.TextField()
+    paymentPercentage = models.IntegerField(default=50)
     discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
-    #couponSlug = models.SlugField(max_length=25, default='coupon slug')
-    # expireDate = models.DateTimeField()
-    #used = models.BooleanField(default=False)
-    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    expireDate = models.DateTimeField() #3months
+    used = models.BooleanField(default=False)
+    user = models.TextField(max_length=100)
+    img = models.TextField()
 
     def __str__(self):
-        return str(self.discountPercentage)+'%'
+        return f'{self.description} {self.discountPercentage}%'
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=25, default='')
@@ -20,67 +25,38 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
-        
-#coupon for sale
 
-#promote code for the website
+
+# promote code for the website
 class Promote(models.Model):
     code = models.CharField(max_length=50, unique=True)
-    startDate = models.DateTimeField()
     expireDate = models.DateTimeField()
-    discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    discountPercentage = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)])
     active = models.BooleanField()
-    
+
     def __str__(self):
         return self.code
 
-class User(models.Model):
-    email = models.EmailField(blank=True)
-    phoneNumber = models.TextField(blank=True)
-
-    def clean(self):
-        if not self.email and not self.phoneNumber:
-            raise ValidationError({'email': _('One of email or phoneNumber should have a value.')})
-
-    def __str__(self):
-        info = self.email if self.email else self.phoneNumber
-        return info
-
-class MyModel(models.Model):
-    field1 = models.TextField(blank=True)
-    field2 = models.TextField(blank=True)
-
-    def clean(self):
-        if not self.field1 and not self.field2:  # This will check for None or Empty
-            raise ValidationError({'field1': _('Even one of field1 or field2 should have a value.')})
 
 class OrderItem(models.Model):
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    item = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+    user = models.TextField()
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    expireDate = models.DateTimeField()
+    # expireDate = models.DateTimeField()
     used = models.BooleanField(default=False)
-    purchasedBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    estimatePurchaseAmount = models.FloatField()
 
     def __str__(self):
-        return f"{self.brand}'s {self.item} coupon"
+        return f'{self.item} coupon'
+
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.TextField(max_length=100)
     items = models.ManyToManyField(OrderItem)
-    start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
-    ordered = models.BooleanField(default=False)
-    
+    total = models.FloatField()
+
     def __str__(self):
-        return self.user
-
-# # class Item(models.Model):
-# #     # coupon
-
-
-
-# class Order(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     item = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+        return f'{self.user} orderd {self.items}'
 

@@ -119,24 +119,27 @@
                         <th>Subtotal</th>
                      </tr>
                      <!-- todo: data-discount need to be dynamic -->
+                     {% for orderItem in order.items.all%}
                      <tr class="checkout_tr" data-discount="0.2">
-                        <td class="checkout_name">[Home Dept] - Wood - 20% Additional Discount</td>
+                        <td class="checkout_name">{{orderItem}}</td>
                         <td><input type="number" value="100" class="checkout_purchase" /></td>
-                        <td class="checkout_coupon_value">some value</td>
-                        <td class="checkout_price">some value</td>
-                        <td><input type="number" value="1" class="checkout_amount"></td>
-                        <td class="checkout_subtotal">some value</td>
+                        <td class="checkout_coupon_value">{{orderItem.item.discountPercentage}}%</td>
+                        <td class="checkout_price">{{orderItem.item.discountPercentage}}</td>
+                        <td><input type="number" value="{{orderItem.quantity}}" class="checkout_amount"></td>
+                        <td class="checkout_subtotal"></td>
+                        <td class="remove_from_cart"><a href="{{coupon.get_remove_from_cart_url}}" class="btn linebtn two">Remove From Cart</a></td>
                      </tr>
+                     {% endfor %}
                      <!-- todo: data-discount need to be dynamic -->
 
-                     <tr class="checkout_tr" data-discount="0.1">
+                     <!-- <tr class="checkout_tr" data-discount="0.1">
                         <td class="hilit checkout_name">[Home Dept] - Glass - 10% Additional Discount</td class="hilit">
                         <td class="hilit"><input type="number" value="100" class="checkout_purchase" /></td>
                         <td class="hilit checkout_coupon_value">some value</td>
                         <td class="hilit checkout_price">some value</td>
                         <td class="hilit"><input type="number" value="1" class="checkout_amount"></td>
                         <td class="hilit checkout_subtotal">some value</td>
-                     </tr>
+                     </tr> -->
                   </tbody>
                </table>
                <div id="payment">

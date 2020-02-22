@@ -215,11 +215,11 @@
         <div class="features" data-anim-type="fade-in-left" data-anim-delay="200">
           <div class="fe-col">
             <div class="fe-col-wrp type1">
-              <h1>{{coupon}}</h1>
-              <h2>{{coupon}} off</h2>
-              <p>{{coupon}}</p>
+              <h1>{{brand}}</h1>
+              <h2>{{coupon.discountPercentage}} off</h2>
+              <p>{{coupon.description}}</p>
               <div class="clearfix margin_top2"></div>
-              <div class="readmore"><a href="#" class="btn linebtn two">Add to Cart</a></div>
+              <div class="readmore"><a href="{{coupon.get_add_to_cart_url}}" class="btn linebtn two">Add to Cart</a></div>
             </div>
           </div>
         </div>

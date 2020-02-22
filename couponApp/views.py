@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View, TemplateView
-from .models import Coupon, Brand, OrderItem, Order
+from .models import Coupon, Brand, OrderItem, Order, User
+from datetime import timedelta, date
+from django.utils import timezone
 
 # Create your views here.
 def index(request):
@@ -16,9 +18,6 @@ class HomeView(TemplateView):
     print('home')
     def get_context_data(self, *args):
         brands = Brand.objects.all()
-        # coupons = list(brand.coupon.all())
-        # print('hahaha')
-        # print(coupons)
         context = {
             'brands': brands
             }
@@ -33,11 +32,35 @@ def couponDetail(request, couponSlug):
     context = {'companyName': companyName}
     return render(request, 'couponApp/couponDetail.html', context)
 
-def add_to_cart(request, discountPercentage):
-    item = get_object_or_404(Coupon, discountPercentage=discountPercentage)
-    order_item = OrderItem.objects.create(item=item)
-    order = Order.objects.create()
-    order.items.add(order_item)
+def add_to_cart(request, slug):
+    item = get_object_or_404(Coupon, slug=slug)
+    expireDate =  date.today() + timedelta(days=10)
+    orderItem = OrderItem.objects.get_or_create(item=item, expireDate=expireDate)
+    demoUser = User.objects.get(pk=1)
+    order_query = Order.objects.filter(user=demoUser)
+
+    if order_query.exists():
+        order = order_query[0]
+        if order.items.filter(item__slug=item.slug).exists():
+            orderItem.quantity += 1
+            orderItem.save()
+        else:    
+            order.items.add(orderItem)
+    else:
+        order = Order.objects.create(user=User.objects.get(pk=1))
+
+    return redirect('couponApp:couponHome')
+
+def remove_from_cart(request, slug):
+    item = get_object_or_404(Coupon, slug=slug)
+    demoUser = User.objects.get(pk=1)
+    order_query = Order.objects.filter(user=demoUser)
+
+    if order_query.exists():
+        order = order_query[0]
+        if order.items.filter(item__slug=item.slug).exists():
+            orderItem= OrderItem.objects.filter(item=item, ordered=False)[0]
+            order.items.remove(orderItem)
 
     return redirect('couponApp:couponHome')
 
@@ -45,12 +68,13 @@ class CheckoutView(View):
     template_name = "couponApp/checkout.html"
     print('checkout')
     def get(self, request):
-        brands = Brand.objects.all()
-        # coupons = list(brand.coupon.all())
-        # print('hahaha')
-        # print(coupons)
+        try:
+            order = Order.objects.get(user=User.objects.get(pk=1))
+        except:
+            order = []
+        
         context = {
-            'brands': brands
+            'order': order
             }
         return render(request, self.template_name, context)
 # class CouponDetailView(DetailView):
