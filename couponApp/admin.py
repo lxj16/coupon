@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Coupon, Promote, User, Order, OrderItem, Brand
+from .models import Coupon, Promote, Order, OrderItem, Brand
 
 # Register your models here.
 # class BrandInline(admin.TabularInline):
@@ -17,7 +17,6 @@ from .models import Coupon, Promote, User, Order, OrderItem, Brand
 
 admin.site.register(Coupon)
 admin.site.register(Promote)
-admin.site.register(User);
 admin.site.register(Order);
 admin.site.register(OrderItem);
 admin.site.register(Brand);
