@@ -8,12 +8,13 @@ def index(request):
     coupons = Coupon.objects.all()
 
     context = {'coupons': coupons}
+    
     return render(request, 'couponApp/main.html', context)
 
 class HomeView(TemplateView):
     template_name = "couponApp/couponHome.html"
     print('home')
-    def get(self, request):
+    def get_context_data(self, *args):
         brands = Brand.objects.all()
         # coupons = list(brand.coupon.all())
         # print('hahaha')
@@ -21,7 +22,8 @@ class HomeView(TemplateView):
         context = {
             'brands': brands
             }
-        return render(request, self.template_name, context)
+        return context
+        # return render(request, self.template_name, context)
 
 def couponDetail(request, couponSlug):
     try:
@@ -39,7 +41,7 @@ def add_to_cart(request, discountPercentage):
 
     return redirect('couponApp:couponHome')
 
-class CheckoutView(TemplateView):
+class CheckoutView(View):
     template_name = "couponApp/checkout.html"
     print('checkout')
     def get(self, request):

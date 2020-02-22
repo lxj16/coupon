@@ -1,8 +1,9 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 # Create your models here.
 
 class Coupon(models.Model):
+    description = models.TextField()
     discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     #couponSlug = models.SlugField(max_length=25, default='coupon slug')
     # expireDate = models.DateTimeField()
@@ -34,10 +35,24 @@ class Promote(models.Model):
         return self.code
 
 class User(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
+    phoneNumber = models.TextField(blank=True)
+
+    def clean(self):
+        if not self.email and not self.phoneNumber:
+            raise ValidationError({'email': _('One of email or phoneNumber should have a value.')})
 
     def __str__(self):
-        return self.email
+        info = self.email if self.email else self.phoneNumber
+        return info
+
+class MyModel(models.Model):
+    field1 = models.TextField(blank=True)
+    field2 = models.TextField(blank=True)
+
+    def clean(self):
+        if not self.field1 and not self.field2:  # This will check for None or Empty
+            raise ValidationError({'field1': _('Even one of field1 or field2 should have a value.')})
 
 class OrderItem(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
