@@ -1,13 +1,12 @@
 // js for cart
 // when user select add cart, add current coupon to local storage
 $(document).ready(function() {
-  updateShoppingCart();
+  restoreSelectedCoupon();
   addToShoppingCartHandler();
+  // removeToShoppingCartHandler(); todo: haven't been implemented
 
   // $(document).on("keyup", "table input", handleCheckoutTable);
 });
-
-// todo: after refresh , same coupono can be selected again, change quantity
 
 // helper function, get item from local storage and return as either {} or json format
 function _renderLocalStorageAsJson(localstorage_key) {
@@ -19,8 +18,28 @@ function _renderLocalStorageAsJson(localstorage_key) {
   return {};
 }
 
+function _markButtonAsAdded(couponCode) {
+  console.log("couponCode = ", couponCode);
+  $(`.add-to-cart-btn[data-code=${couponCode}]`)
+    .html("added")
+    .removeClass("add-to-cart-btn");
+}
+
+// todo: after refresh , same coupono can be selected again, change quantity
+function restoreSelectedCoupon() {
+  let shoppingCart = _renderLocalStorageAsJson("GSC-coupons");
+  if (shoppingCart.length) {
+    shoppingCart.forEach(coupon => {
+      _markButtonAsAdded(coupon["code"]);
+    });
+    //update shopping cart number
+
+    updateShoppingCartNum();
+  }
+}
+
 // restore the number to #cart-num
-function updateShoppingCart() {
+function updateShoppingCartNum() {
   // window.localStorage.setItem("user", JSON.stringify(person));
   // window.localStorage.getItem('user');
 
@@ -39,7 +58,7 @@ function addToShoppingCartHandler() {
     const couponCode = $(this).attr("data-code");
 
     let shoppingCart = _renderLocalStorageAsJson("GSC-coupons");
-    console.log("test", shoppingCart);
+
     if (shoppingCart.length) {
       // not empty, append to local storage
       shoppingCart.push({ code: couponCode });
@@ -49,6 +68,8 @@ function addToShoppingCartHandler() {
       // empty, write to shopping cart
     }
     // update shopping cart
-    updateShoppingCart();
+    updateShoppingCartNum();
   });
 }
+
+// function removeToShoppingCartHandler

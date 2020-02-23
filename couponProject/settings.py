@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+
+
+
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
@@ -133,3 +138,38 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
+
+
+
+
+LOGGING_CONFIG = None
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        # root logger
+        '': {
+            'handlers': ['console'],
+        },
+        #'django.request': {
+        #    'handlers': ['console'],
+        #    'level': 'DEBUG',
+        #    'propagate': False,
+        #},
+    }
+}  
+
+import logging.config
+logging.config.dictConfig(LOGGING)

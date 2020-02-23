@@ -1,178 +1,95 @@
 {% extends "couponApp/base.html" %}
+
 {% load static %}
-<script type="text/javascript" src="{% static 'js/scheckout.js' %}"></script>
+
 {% block content %}
 
+<script type="text/javascript" src="{% static 'js/checkout.js' %}" defer></script>
 
-<body>
-   <div class="preloader">
-      <div class="status"></div>
+
+<section class="header-section">
+   <div class="page_header">
+      <div class="container">
+         <h2 class="align_center pagetitle">Our Courses</h2>
+         <div class="pagenation"><a href="index.html">Home</a> <i>/</i> Our Courses
+         </div>
+      </div>
    </div>
-   <!-- end page loader -->
-   <div class="site_wrapper">
-      <!-- header -->
-      <header>
-         <!-- Top header bar -->
-         <div id="topHeader">
-            <div class="wrapper">
-               <div class="top_nav top_nav2 top_nav3">
-                  <div class="container">
-                     <!-- Logo -->
-                     <div class="logo two left"><a href="index.html" id="logo"></a></div>
+</section>
+<!-- end page header -->
+<div class="clearfix"></div>
+<section class="section2">
+   <div class="container">
+      <div class="title4">
+         <h2><span class="line"></span>
+            Please review your shopping cart
+            <em>具体说明： 注释： Total Saving = estimate purchase amount x additional discount = Coupon Value </em>
+         </h2>
+      </div>
 
-                     <ul class="right-nav one">
-                        <li><a href="http://www.allcpd.com"><i class="fa fa-user"></i> Login</a></li>
-                        <li><a href="http://www.allcpd.com"><i class="fa fa-user"></i> Register</a></li>
-                        <li class="phoneno"><i class="fa fa-phone"></i> +1(778)-371-0708 </li>
-                        <li class="last"><a href="mailto:info@allcpd.com"><i class="fa fa-envelope-o"></i> E-mail Us</a>
-                        </li>
-                     </ul>
-                  </div>
-               </div>
+      <div class="clearfix margin_top4"></div>
+
+      <div class="table-style">
+         <table class="table-list3" id="checkout_table">
+            <tbody>
+               <tr>
+                  <th>Store Name</th>
+                  <th>Estimate Purchase Amount</th>
+                  <th>Coupon Value</th>
+                  <th>Price</th>
+                  <th>Amount</th>
+                  <th>Subtotal</th>
+               </tr>
+               <!-- todo: data-discount need to be dynamic -->
+               <tr class="checkout_tr" data-discount="0.2">
+                  <td class="checkout_name">[Home Dept] - Wood - 20% Additional Discount</td>
+                  <td><input type="number" value="100" class="checkout_purchase" /></td>
+                  <td class="checkout_coupon_value">some value</td>
+                  <td class="checkout_price">some value</td>
+                  <td><input type="number" value="1" class="checkout_amount"></td>
+                  <td class="checkout_subtotal">some value</td>
+               </tr>
+               <!-- todo: data-discount need to be dynamic -->
+
+               <tr class="checkout_tr" data-discount="0.1">
+                  <td class="hilit checkout_name">[Home Dept] - Glass - 10% Additional Discount</td class="hilit">
+                  <td class="hilit"><input type="number" value="100" class="checkout_purchase" /></td>
+                  <td class="hilit checkout_coupon_value">some value</td>
+                  <td class="hilit checkout_price">some value</td>
+                  <td class="hilit"><input type="number" value="1" class="checkout_amount"></td>
+                  <td class="hilit checkout_subtotal">some value</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="payment">
+            <div id="payment_paypal">
+               <label>Receive Coupon by: </label>
+               <label id="send_to_phone">SMS </label>
+               <input type="radio" name="send_to" value="phone" id="send_to_phone" checked>
+               <input type="tel" value="" placeholder="enter Phone Number" />
+               <p>or</p><label id="send_to_email">EMAIL </label>
+               <input type="radio" name="send_to" value="email" id="send_to_email">
+               <input type="email" value="" placeholder="enter email" /><br />
+               <p><b>Total: $<span id="checkout_total">some value</span></b></p>
+               <!-- todo: change this pyapal button  -->
+               <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                  <input type="hidden" name="cmd" value="_s-xclick">
+                  <input type="hidden" name="hosted_button_id" value="TYBGB698D4VS4">
+                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
+                     name="submit" alt="PayPal - The safer, easier way to pay online!">
+                  <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+               </form>
+            </div>
+            <div id="payment_coupon" class="">
+               <!-- todo: promotion code is not working  -->
+               <div><label>Promotion Code: </label>
+                  <input type="text" value="" placeholder="enter coupon code" /></div>
+
             </div>
          </div>
-         <!-- end top navigation -->
-
-         <div class="scrollto_sticky five">
-            <div class="container">
-               <!-- Menu -->
-               <div class="menu_main menu_main3">
-                  <div class="navbar yamm navbar-default">
-                     <div class="navbar-header">
-                        <div class="navbar-toggle .navbar-collapse .pull-right " data-toggle="collapse"
-                           data-target="#navbar-collapse-1"> <span>Menu</span>
-                           <button type="button"> <i class="fa fa-bars"></i></button>
-                        </div>
-                     </div>
-                     <div id="navbar-collapse-1" class="navbar-collapse collapse pull-right">
-                        <nav>
-                           <ul class="nav navbar-nav three five">
-                              <li class="dropdown yamm-fw"> <a href="index.html">Home</a>
-                              </li>
-                              <li class="dropdown"> <a href="" class="dropdown-toggle"> About Us</a>
-                                 <ul role="menu" class="dropdown-menu">
-                                    <li><a href="about1.html">GC Education Service</a></li>
-                                    <li><a href="about2.html">GC Supporting Services</a></li>
-                                    <li><a href="about3.html">GC Saving Services</a></li>
-                                 </ul>
-                              </li>
-                              <li class="dropdown"> <a href="https://www.visacpd.com/members"> Members</a>
-                              </li>
-                              <li class="dropdown"> <a href="{% url 'couponApp:couponHome' %}"> Coupons</a>
-                              </li>
-                              <li class="dropdown"> <a href="hiring.html"> Hiring / Franchise</a>
-                              </li>
-                              <li class="dropdown"> <a href="contact.html" class="dropdown-toggle">Contact Us</a>
-                              </li>
-                           </ul>
-                        </nav>
-
-                        <ul class="social_icons two three left">
-                           <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                           <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                           <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                           <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                           <li class="last shopping-cart"><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <!-- end menu -->
-            </div>
-         </div>
-      </header>
-      <div class="clearfix"></div>
+      </div>
+   </div>
+</section>
 
 
-      <section class="header-section">
-         <div class="page_header">
-            <div class="container">
-               <h2 class="align_center pagetitle">Check Out</h2>
-               <div class="pagenation"><a href="index.html">Home</a> <i>/</i> Our Courses
-               </div>
-            </div>
-         </div>
-      </section>
-      <!-- end page header -->
-      <div class="clearfix"></div>
-
-
-      <section class="section2">
-         <div class="container">
-            <div class="title4">
-               <h2><span class="line"></span>
-                  Please review your shopping cart
-                  <em>具体说明： 注释： Total Saving = estimate purchase amount x additional discount = Coupon Value </em>
-               </h2>
-            </div>
-
-            <div class="clearfix margin_top4"></div>
-
-            <div class="table-style">
-               <table class="table-list3" id="checkout_table">
-                  <tbody>
-                     <tr>
-                        <th>Store Name</th>
-                        <th>Estimate Purchase Amount</th>
-                        <th>Coupon Value</th>
-                        <th>Price</th>
-                        <th>Amount</th>
-                        <th>Subtotal</th>
-                     </tr>
-                     <!-- todo: data-discount need to be dynamic -->
-                     {% for orderItem in order.items.all%}
-                     <tr class="checkout_tr" data-discount="0.2">
-                        <td class="checkout_name">{{orderItem}}</td>
-                        <td><input type="number" value="100" class="checkout_purchase" /></td>
-                        <td class="checkout_coupon_value">{{orderItem.item.discountPercentage}}%</td>
-                        <td class="checkout_price">{{orderItem.item.discountPercentage}}</td>
-                        <td><input type="number" value="{{orderItem.quantity}}" class="checkout_amount"></td>
-                        <td class="checkout_subtotal"></td>
-                        <td class="remove_from_cart"><a href="{{coupon.get_remove_from_cart_url}}"
-                              class="btn linebtn two">Remove From Cart</a></td>
-                     </tr>
-                     {% endfor %}
-                     <!-- todo: data-discount need to be dynamic -->
-
-                     <!-- <tr class="checkout_tr" data-discount="0.1">
-                        <td class="hilit checkout_name">[Home Dept] - Glass - 10% Additional Discount</td class="hilit">
-                        <td class="hilit"><input type="number" value="100" class="checkout_purchase" /></td>
-                        <td class="hilit checkout_coupon_value">some value</td>
-                        <td class="hilit checkout_price">some value</td>
-                        <td class="hilit"><input type="number" value="1" class="checkout_amount"></td>
-                        <td class="hilit checkout_subtotal">some value</td>
-                     </tr> -->
-                  </tbody>
-               </table>
-               <div id="payment">
-                  <div id="payment_paypal">
-                     <label>Receive Coupon by: </label>
-                     <label id="send_to_phone">SMS </label>
-                     <input type="radio" name="send_to" value="phone" id="send_to_phone" checked>
-                     <input type="tel" value="" placeholder="enter Phone Number" />
-                     <p>or</p><label id="send_to_email">EMAIL </label>
-                     <input type="radio" name="send_to" value="email" id="send_to_email">
-                     <input type="email" value="" placeholder="enter email" /><br />
-                     <p><b>Total: $<span id="checkout_total">some value</span></b></p>
-                     <!-- todo: change this pyapal button  -->
-                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                        <input type="hidden" name="cmd" value="_s-xclick">
-                        <input type="hidden" name="hosted_button_id" value="TYBGB698D4VS4">
-                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
-                           name="submit" alt="PayPal - The safer, easier way to pay online!">
-                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
-                           height="1">
-                     </form>
-                  </div>
-                  <div id="payment_coupon" class="">
-                     <!-- todo: promotion code is not working  -->
-                     <div><label>Promotion Code: </label>
-                        <input type="text" value="" placeholder="enter coupon code" /></div>
-
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
-
-      {% endblock content %}
+{% endblock content %}

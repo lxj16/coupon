@@ -20,31 +20,11 @@ class HomeView(TemplateView):
         context = {
             'brands': brands
             }
-        print(brands)
         return context
         # return render(request, self.template_name, context)
 
-def couponDetail(request, couponCode):
-    try:
-        storeName = Coupon.objects.get(code=couponCode).store
-    except:
-        storeName = 'not found'
-    context = {'storeName': storeName}
-    return render(request, 'couponApp/couponDetail.html', context)
-
-class CheckoutView(View):
-    template_name = "couponApp/checkout.html"
-    def get(self, request):
-        # try:
-        #     order = Order.objects.get(user=User.objects.get(pk=1))
-        # except:
-        #     order = []
+def CheckoutView(request):
+    context = {
         
-        context = {
-            # 'order': order
-            }
-        return render(request, self.template_name, context)
-# class CouponDetailView(DetailView):
-#     model = Coupon
-#     slug_field = 'couponSlug'
-#     template_name = "couponApp/couponDetail.html"
+        }
+    return render(request, 'couponApp/checkout.html',context)
