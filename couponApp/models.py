@@ -28,19 +28,19 @@ class Coupon(models.Model):
     description = models.TextField()
     paymentPercentage = models.IntegerField(default=50)
     discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
-    expireDate = models.DateTimeField(default=_three_month_from_now, blank=True, null=True) #3 months from now, we need to confirm the rules
-    active = models.BooleanField(default=True)
-    user = models.TextField(max_length=100, null=True)
-    img = models.TextField(null=True)
+    expireDate = models.DateTimeField(default=_three_month_from_now, blank=True, null=True) #3 months from now, we need to confirm the rules 
+    used = models.BooleanField(default=False)
+    user = models.TextField(max_length=100, null=True, blank=True)
+    img = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.description} {self.discountPercentage}%'
+        return f'{self.store} {self.discountPercentage}%'
 
 
 class Brand(models.Model):
     name = models.CharField(max_length=25, default='')
-    description = models.CharField(max_length=100, default='')
-    coupons = models.ManyToManyField(Coupon)
+    description = models.CharField(max_length=100, default='', blank=True)
+    coupons = models.ManyToManyField(Coupon, blank=True)
 
     def __str__(self):
         return self.name

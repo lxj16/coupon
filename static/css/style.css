@@ -31,7 +31,9 @@
 4. Footer
 	+ copyrights
 	+ google map
-	
+
+5. New styles
+   + skip...
 --------------------------------------------------------*/
 
 
@@ -1338,6 +1340,7 @@ ul.social_icons.four li a:hover{
     position: relative;
     width: 31.320%;
 	margin-right:2%;
+	margin-bottom:20px;
     z-index: 1;
 }
 .fe-col-wrp.type1 {
@@ -7519,7 +7522,7 @@ form .submit-btn:hover{
 	text-align:center;
 }
 
- /* home apge css  */
+ /* home page css  */
  .home-category-img img{
 	 max-width:100%;
  }
@@ -7565,6 +7568,19 @@ form .submit-btn:hover{
 	 width:50px;
  }
 
+
+ /* cart style  */
+ #cart-num{
+	background:white;
+	color:red;
+	border-radius: 50%;
+	position: absolute;
+	width: 30px;
+	margin-left: 10px;
+	height: 30px;
+	font-weight: bold;
+	font-size: 20px;
+ }
 
  /* checkout style  */
  .shopping-cart i:before{

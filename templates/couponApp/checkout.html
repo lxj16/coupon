@@ -1,5 +1,6 @@
 {% extends "couponApp/base.html" %}
-
+{% load static %}
+<script type="text/javascript" src="{% static 'js/scheckout.js' %}"></script>
 {% block content %}
 
 
@@ -127,7 +128,8 @@
                         <td class="checkout_price">{{orderItem.item.discountPercentage}}</td>
                         <td><input type="number" value="{{orderItem.quantity}}" class="checkout_amount"></td>
                         <td class="checkout_subtotal"></td>
-                        <td class="remove_from_cart"><a href="{{coupon.get_remove_from_cart_url}}" class="btn linebtn two">Remove From Cart</a></td>
+                        <td class="remove_from_cart"><a href="{{coupon.get_remove_from_cart_url}}"
+                              class="btn linebtn two">Remove From Cart</a></td>
                      </tr>
                      {% endfor %}
                      <!-- todo: data-discount need to be dynamic -->
@@ -173,4 +175,4 @@
          </div>
       </section>
 
-{% endblock content %}
+      {% endblock content %}
