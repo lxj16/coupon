@@ -34,7 +34,7 @@ class Coupon(models.Model):
     img = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.store} {self.discountPercentage}%'
+        return f'{self.store} - {self.description} - {self.discountPercentage}%'
 
 
 class Brand(models.Model):

@@ -4,7 +4,6 @@ $(document).ready(function() {
   restoreSelectedCoupon();
   addToShoppingCartHandler();
   // removeToShoppingCartHandler(); todo: haven't been implemented
-
   // $(document).on("keyup", "table input", handleCheckoutTable);
 });
 
@@ -56,17 +55,27 @@ function addToShoppingCartHandler() {
 
     // get coupon id
     const couponCode = $(this).attr("data-code");
+    const couponName = $(this).attr("data-coupon");
+    const couponDiscount = $(this).attr("data-discount");
 
     let shoppingCart = _renderLocalStorageAsJson("GSC-coupons");
 
     if (shoppingCart.length) {
       // not empty, append to local storage
-      shoppingCart.push({ code: couponCode });
+      shoppingCart.push({ code: couponCode, couponName: couponName, couponDiscount: couponDiscount});
       window.localStorage.setItem("GSC-coupons", JSON.stringify(shoppingCart));
     } else {
-      window.localStorage.setItem("GSC-coupons", JSON.stringify([{ code: couponCode }]));
+      window.localStorage.setItem("GSC-coupons", JSON.stringify([{code: couponCode, couponName: couponName, couponDiscount: couponDiscount}]));
       // empty, write to shopping cart
     }
+    // if (shoppingCart.length) {
+    //   // not empty, append to local storage
+    //   shoppingCart.push({ code: couponCode });
+    //   window.localStorage.setItem("GSC-coupons", JSON.stringify(shoppingCart));
+    // } else {
+    //   window.localStorage.setItem("GSC-coupons", JSON.stringify([{ code: couponCode }]));
+    //   // empty, write to shopping cart
+    // }
     // update shopping cart
     updateShoppingCartNum();
   });
