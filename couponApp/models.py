@@ -66,7 +66,7 @@ class OrderItem(models.Model):
     estimatePurchaseAmount = models.FloatField(null=True)
 
     def __str__(self):
-        return f'{self.item} coupon'
+        return f'{self.user}\'s coupon'
 
 
 class Order(models.Model):

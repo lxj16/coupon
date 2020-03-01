@@ -11,7 +11,7 @@ function handleCheckoutTable() {
       .find('input.checkout_purchase')
       .val();
     //update coupon value
-    const conupon_value = (checkout_purchase * discount/100).toFixed(2);
+    const conupon_value = ((checkout_purchase * discount) / 100).toFixed(2);
 
     $(this)
       .find('.checkout_coupon_value')
@@ -52,31 +52,69 @@ function _renderLocalStorageAsJson(localstorage_key) {
 
 const renderCart = () => {
   const cart = _renderLocalStorageAsJson('GSC-coupons');
-  const items = cart.map(
-    item => `
-    <tr class="checkout_tr" data-discount="${item.couponDiscount}">
-      <td class="checkout_name">${item.couponName}</td>
-      <td><input type="number" value="100" class="checkout_purchase" /></td>
-      <td class="checkout_coupon_value">some value</td>
-      <td class="checkout_price">some value</td>
-      <td><input type="number" value="1" class="checkout_amount"></td>
-    <td class="checkout_subtotal">some value</td>
- </tr>
-    `
-  );
-
-  $('#checkout_table_body').append(items);
+  if (cart.length) {
+    const items = cart.map(
+      item => `
+      <tr class="checkout_tr" data-discount="${item.couponDiscount}">
+        <td class="checkout_name">${item.couponName}</td>
+        <td><input type="number" value="100" class="checkout_purchase" min="0" id="${item.code}Estimate" /></td>
+        <td class="checkout_coupon_value" id="${item.code}Value">some value</td>
+        <td class="checkout_price">some value</td>
+        <td><input type="number" id="${item.code}Quantity" value="1" class="checkout_amount" min="0" step="1"></td>
+      <td class="checkout_subtotal" id="${item.code}Subtotal">some value</td>
+   </tr>
+      `
+    );
+  
+    $('#checkout_table_body').append(items);
+  }else{
+    $('#checkout_table_body').append("<h2>Your cart is empty</h2>");
+  }
 };
 
 function purchase() {
-  $('#buyBtn').click(function(){
-    console.log('clicked')
-  })
+  $('#buyBtn').click(function() {
+    const cart = _renderLocalStorageAsJson('GSC-coupons');
+    const orderItems = [];
+    cart.map(item => {
+      const estimate = Number($(`#${item.code}Estimate`).val());
+      const couponValue = Number($(`#${item.code}Value`).html());
+      const quantity = Number($(`#${item.code}Quantity`).val());
+      const subtotal = Number($(`#${item.code}Subtotal`).html());
+      const orderItem = {
+        code: item.code,
+        estimate: estimate,
+        couponValue: couponValue,
+        quantity: quantity,
+        subtotal: subtotal
+      };
+      orderItems.push(orderItem);
+    });
+    const sentToType = $("input[name='send_to']:checked").val();
+    const sentTo =
+      sentToType === 'phone'
+        ? $("input[name='send_to_phone']").val()
+        : $("input[name='send_to_email']").val();
+    const order = {
+      orderItems: orderItems,
+      sentToType: sentToType,
+      sentTo: sentTo
+    };
+
+    $.ajax({
+      type: 'POST',
+      url: '/coupon/checkout/',
+      data: JSON.stringify(order),
+      success: () => {
+        console.log('success');
+        localStorage.clear();
+      }
+    });
+  });
 }
 
 // js for checkout handler
 $(document).ready(function() {
-  console.log('cartss');
   renderCart();
   handleCheckoutTable();
   purchase();

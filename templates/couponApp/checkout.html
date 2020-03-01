@@ -66,13 +66,14 @@
          </table>
          <div id="payment">
             <div id="payment_paypal">
+               {% csrf_token %}
                <label>Receive Coupon by: </label>
                <label id="send_to_phone">SMS </label>
                <input type="radio" name="send_to" value="phone" id="send_to_phone" checked>
-               <input type="tel" value="" placeholder="enter Phone Number" />
+               <input type="tel" name="send_to_phone" placeholder="enter Phone Number" />
                <p>or</p><label id="send_to_email">EMAIL </label>
                <input type="radio" name="send_to" value="email" id="send_to_email">
-               <input type="email" value="" placeholder="enter email" /><br />
+               <input type="email" name="send_to_email" placeholder="enter email" /><br />
                <p><b>Total: $<span id="checkout_total">some value</span></b></p>
                <!-- todo: change this pyapal button  -->
                {% comment %} <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
