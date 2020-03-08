@@ -5,6 +5,7 @@
 {% block content %}
 
 <script type="text/javascript" src="{% static 'js/checkout.js' %}" defer></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}" defer></script>
 
 
 <section class="header-section">
@@ -31,7 +32,7 @@
 
       <div class="table-style">
          <table class="table-list3" id="checkout_table">
-            <tbody>
+            <tbody id="checkout_table_body">
                <tr>
                   <th>Store Name</th>
                   <th>Estimate Purchase Amount</th>
@@ -41,7 +42,8 @@
                   <th>Subtotal</th>
                </tr>
                <!-- todo: data-discount need to be dynamic -->
-               <tr class="checkout_tr" data-discount="0.2">
+               {% comment %}
+               <tr class="checkout_tr" data-discount="20">
                   <td class="checkout_name">[Home Dept] - Wood - 20% Additional Discount</td>
                   <td><input type="number" value="100" class="checkout_purchase" /></td>
                   <td class="checkout_coupon_value">some value</td>
@@ -51,34 +53,38 @@
                </tr>
                <!-- todo: data-discount need to be dynamic -->
 
-               <tr class="checkout_tr" data-discount="0.1">
+                <tr class="checkout_tr" data-discount="0.1">
                   <td class="hilit checkout_name">[Home Dept] - Glass - 10% Additional Discount</td class="hilit">
                   <td class="hilit"><input type="number" value="100" class="checkout_purchase" /></td>
                   <td class="hilit checkout_coupon_value">some value</td>
                   <td class="hilit checkout_price">some value</td>
                   <td class="hilit"><input type="number" value="1" class="checkout_amount"></td>
                   <td class="hilit checkout_subtotal">some value</td>
-               </tr>
+               </tr> {% endcomment %}
+
             </tbody>
          </table>
          <div id="payment">
             <div id="payment_paypal">
+               {% csrf_token %}
                <label>Receive Coupon by: </label>
                <label id="send_to_phone">SMS </label>
                <input type="radio" name="send_to" value="phone" id="send_to_phone" checked>
-               <input type="tel" value="" placeholder="enter Phone Number" />
+               <input type="tel" name="send_to_phone" placeholder="enter Phone Number" />
                <p>or</p><label id="send_to_email">EMAIL </label>
                <input type="radio" name="send_to" value="email" id="send_to_email">
-               <input type="email" value="" placeholder="enter email" /><br />
+               <input type="email" name="send_to_email" placeholder="enter email" /><br />
                <p><b>Total: $<span id="checkout_total">some value</span></b></p>
                <!-- todo: change this pyapal button  -->
-               <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+               {% comment %} <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                   <input type="hidden" name="cmd" value="_s-xclick">
                   <input type="hidden" name="hosted_button_id" value="TYBGB698D4VS4">
                   <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
                      name="submit" alt="PayPal - The safer, easier way to pay online!">
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-               </form>
+               </form> {% endcomment %}
+                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
+                     name="submit" alt="PayPal - The safer, easier way to pay online!" id="buyBtn">
             </div>
             <div id="payment_coupon" class="">
                <!-- todo: promotion code is not working  -->

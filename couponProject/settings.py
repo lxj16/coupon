@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'couponApp.apps.CouponappConfig'
+    'couponApp.apps.CouponappConfig',
+    'django_twilio',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +98,8 @@ DATABASES = {
 #     }
 # }
 
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -141,7 +144,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
 
-
 LOGGING_CONFIG = None
 LOGGING = {
     'version': 1,
@@ -173,3 +175,10 @@ LOGGING = {
 
 import logging.config
 logging.config.dictConfig(LOGGING)
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'lxjdemos@gmail.com'
+EMAIL_HOST_PASSWORD = 'DjangoLul'
+

@@ -34,7 +34,7 @@ class Coupon(models.Model):
     img = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.store} {self.discountPercentage}%'
+        return f'{self.store} - {self.description} - {self.discountPercentage}%'
 
 
 class Brand(models.Model):
@@ -66,7 +66,7 @@ class OrderItem(models.Model):
     estimatePurchaseAmount = models.FloatField(null=True)
 
     def __str__(self):
-        return f'{self.item} coupon'
+        return f'{self.user}\'s coupon'
 
 
 class Order(models.Model):
@@ -78,3 +78,7 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.user} orderd {self.items}'
 
+class SoldCoupon(models.Model):
+    code = models.CharField(max_length=50, unique=True, default=_randomIDGenerator)
+    item = models.ForeignKey(OrderItem, on_delete=models.CASCADE) 
+    used = models.BooleanField(default=False)
