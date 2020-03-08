@@ -46,10 +46,8 @@ class CheckoutView(View):
         if request.method == 'POST':
 
             data = json.loads(request.body.decode('utf-8'))
-            print(data)
 
             orderItems = data['orderItems']
-            print(orderItems)
 
             #newOrder = Order(user=data['sentTo'], ordered_date=timezone.now())
             total = 0
@@ -60,7 +58,7 @@ class CheckoutView(View):
                 orderItem.save()
                 # newOrder.items.add(orderItem)
                 total += item['subtotal']
-            print(total)
+            
             # newOrder.total = total
             # newOrder.save()
             context = {
@@ -85,15 +83,15 @@ class CheckoutView(View):
                 #     recipient_list=[data['sentTo']],
                 #     fail_silently=False,
                 # )
-            elif data['sentToType'] == 'phone':
-                phoneNumber = data['sentTo']
-                message_to_broadcast = ("Your coupons here")
-                client = Client(settings.TWILIO_ACCOUNT_SID,
-                                settings.TWILIO_AUTH_TOKEN)
+            # elif data['sentToType'] == 'phone':
+            #     phoneNumber = data['sentTo']
+            #     message_to_broadcast = ("Your coupons here")
+            #     client = Client(settings.TWILIO_ACCOUNT_SID,
+            #                     settings.TWILIO_AUTH_TOKEN)
 
-                client.messages.create(to=phoneNumber,
-                                       from_=7781234567,
-                                       body=message_to_broadcast)
+            #     client.messages.create(to=phoneNumber,
+            #                            from_=7781234567,
+            #                            body=message_to_broadcast)
 
             return render(request, 'couponApp/checkoutSuccess.html', context)
 
