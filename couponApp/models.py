@@ -78,3 +78,7 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.user} orderd {self.items}'
 
+class SoldCoupon(models.Model):
+    code = models.CharField(max_length=50, unique=True, default=_randomIDGenerator)
+    item = models.ForeignKey(OrderItem, on_delete=models.CASCADE) 
+    used = models.BooleanField(default=False)

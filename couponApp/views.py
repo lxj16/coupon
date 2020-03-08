@@ -1,15 +1,16 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View, TemplateView
-from .models import Coupon, Brand, OrderItem, Order
+from .models import Coupon, Brand, OrderItem, Order, SoldCoupon
 from datetime import timedelta, date
 from django.utils import timezone
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from couponProject.settings import EMAIL_HOST_USER
 import json
-from django.conf import settings                                                                                                                                                       
+from django.conf import settings
 from twilio.rest import Client
+from django.template.loader import get_template
 
 # Create your views here.
 
@@ -62,17 +63,30 @@ class CheckoutView(View):
             print(total)
             # newOrder.total = total
             # newOrder.save()
+            context = {
+                'orderItems': orderItems,
+                'total': total
 
+            }
             if data['sentToType'] == 'email':
+                # html_template = get_template('couponApp/email/orderEmail.html').render()
+                message = f'Here is your order: {orderItems},{total}'
                 send_mail(
-                    'Your Coupon',
-                    'Here is your order.',
-                    EMAIL_HOST_USER,
-                    [data['sentTo']],
+                    subject='Your Coupon',
+                    message=message,
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[data['sentTo']],
                     fail_silently=False,
                 )
+                # message = send_mail(
+                #     subject='Your Coupon',
+                #     message=html_template,
+                #     from_email=EMAIL_HOST_USER,
+                #     recipient_list=[data['sentTo']],
+                #     fail_silently=False,
+                # )
             elif data['sentToType'] == 'phone':
-                phoneNumber = '+1'+data['sentTo']
+                phoneNumber = data['sentTo']
                 message_to_broadcast = ("Your coupons here")
                 client = Client(settings.TWILIO_ACCOUNT_SID,
                                 settings.TWILIO_AUTH_TOKEN)
@@ -81,11 +95,23 @@ class CheckoutView(View):
                                        from_=7781234567,
                                        body=message_to_broadcast)
 
-            return render(request, 'couponApp/checkoutSuccess.html')
+            return render(request, 'couponApp/checkoutSuccess.html', context)
 
 
 def checkoutSuccessView(request):
     return render(request, 'couponApp/checkoutSuccess.html')
+
+def useCoupon(request, code):
+    soldCoupon_obj = SoldCoupon.objects.get(code=code)
+    soldCoupon_obj.used = True
+    soldCoupon_obj.save()
+    orderItem_obj = soldCoupon_obj.item
+
+    context={
+        'orderItem': orderItem_obj
+    }
+
+    return render(request, 'couponApp/useCoupon.html', context)
 
 
 # def sendSMS(request, phoneNumber):
