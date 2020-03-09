@@ -10,7 +10,12 @@ from couponProject.settings import EMAIL_HOST_USER
 import json
 from django.conf import settings
 from twilio.rest import Client
+from django.template import loader
 from django.template.loader import get_template
+
+from decimal import Decimal
+from paypal.standard.forms import PayPalPaymentsForm
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -69,12 +74,17 @@ class CheckoutView(View):
             if data['sentToType'] == 'email':
                 # html_template = get_template('couponApp/email/orderEmail.html').render()
                 message = f'Here is your order: {orderItems},{total}'
+
+                html_message = loader.render_to_string(
+                    'couponApp/email/orderEmail.html'
+                )
                 send_mail(
                     subject='Your Coupon',
                     message=message,
                     from_email=EMAIL_HOST_USER,
                     recipient_list=[data['sentTo']],
                     fail_silently=False,
+                    html_message=html_message
                 )
                 # message = send_mail(
                 #     subject='Your Coupon',
@@ -120,3 +130,54 @@ def useCoupon(request, code):
 #                            from_=7781234567,
 #                            body=message_to_broadcast)
 #     return HttpResponse("messages sent!", 200)
+
+
+
+#test checkout function
+def checkout(request):
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+        #...
+        #...
+ 
+            cart.clear(request)
+ 
+            request.session['order_id'] = o.id
+            return redirect('process_payment')
+
+# Paypal function 
+def process_payment(request):
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order, id=order_id)
+    host = request.get_host()
+ 
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': '%.2f' % order.total_cost().quantize(
+            Decimal('.01')),
+        'item_name': 'Order {}'.format(order.id),
+        'invoice': str(order.id),
+        'currency_code': 'USD',
+        'notify_url': 'http://{}{}'.format(host,
+                                           reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host,
+                                           reverse('payment_done')),
+        'cancel_return': 'http://{}{}'.format(host,
+                                              reverse('payment_cancelled')),
+    }
+ 
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, 'couponApp/process_payment.html', {'order': order, 'form': form})
+
+
+
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'couponApp/payment_done.html')
+ 
+ 
+@csrf_exempt
+def payment_canceled(request):
+    return render(request, 'couponApp/payment_cancelled.html')

@@ -53,7 +53,7 @@
                </tr>
                <!-- todo: data-discount need to be dynamic -->
 
-                <tr class="checkout_tr" data-discount="0.1">
+               <tr class="checkout_tr" data-discount="0.1">
                   <td class="hilit checkout_name">[Home Dept] - Glass - 10% Additional Discount</td class="hilit">
                   <td class="hilit"><input type="number" value="100" class="checkout_purchase" /></td>
                   <td class="hilit checkout_coupon_value">some value</td>
@@ -83,8 +83,8 @@
                      name="submit" alt="PayPal - The safer, easier way to pay online!">
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                </form> {% endcomment %}
-                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
-                     name="submit" alt="PayPal - The safer, easier way to pay online!" id="buyBtn">
+               <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
+                  name="submit" alt="PayPal - The safer, easier way to pay online!" id="buyBtn">
             </div>
             <div id="payment_coupon" class="">
                <!-- todo: promotion code is not working  -->
@@ -93,6 +93,10 @@
 
             </div>
          </div>
+
+         test paypal button:
+         <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+         <script>paypal.Buttons().render('body');</script>
       </div>
    </div>
 </section>

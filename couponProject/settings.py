@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'couponApp.apps.CouponappConfig',
     'django_twilio',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
+
+PAYPAL_RECEIVER_EMAIL = 'info@visacpd.com'
+PAYPAL_TEST = True
 
 
 
