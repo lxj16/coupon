@@ -6,6 +6,7 @@ import random
 import string 
 from datetime import timedelta
 from django.utils import timezone
+from phone_field import PhoneField
 
 def _randomIDGenerator():
     '''
@@ -24,14 +25,28 @@ def _three_month_from_now():
 
 class Coupon(models.Model):
     code = models.CharField(max_length=50, unique=True, default=_randomIDGenerator)
-    store = models.ForeignKey('Brand', null=True, on_delete=models.CASCADE, blank = True)
-    description = models.TextField()
+    store = models.ForeignKey('Brand', null=True, on_delete=models.CASCADE, blank = True) #company name
+    description = models.TextField() #coupon description 
     paymentPercentage = models.IntegerField(default=50)
-    discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
-    expireDate = models.DateTimeField(default=_three_month_from_now, blank=True, null=True) #3 months from now, we need to confirm the rules 
+    discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])  #coupon  %/
+    expireDate = models.DateTimeField(default=_three_month_from_now, blank=True, null=True) #3 months from now, we need to confirm the rules  #expiry date
     used = models.BooleanField(default=False)
     user = models.TextField(max_length=100, null=True, blank=True)
-    img = models.TextField(null=True, blank=True)
+    img = models.TextField(null=True, blank=True) #coupon image
+
+    #new:
+    country = models.TextField(max_length=50, null=True, blank=True)
+    category = models.TextField(max_length=100, null=True, blank=True)
+    address = models.TextField(max_length=200, null=True, blank=True) #address,post code
+
+    service_area = models.TextField(max_length=200, null=True, blank=True) #i.e. vancouver, toronto, richmond
+    telephone = PhoneField(blank=True, help_text='Contact phone number')
+    website = models.TextField(max_length=50, null=True, blank=True)
+    email = models.TextField(max_length = 254, null=True, blank=True)
+    fax = PhoneField(blank=True, help_text='Contact phone number')
+    term_of_use = models.TextField(max_length=500, null=True, blank=True)
+
+
 
     def __str__(self):
         return f'{self.store} - {self.description} - {self.discountPercentage}%'
