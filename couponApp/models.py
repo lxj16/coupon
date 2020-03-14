@@ -6,7 +6,6 @@ import random
 import string 
 from datetime import timedelta
 from django.utils import timezone
-from phone_field import PhoneField
 
 def _randomIDGenerator():
     '''
@@ -50,10 +49,10 @@ class Coupon(models.Model):
     address = models.TextField(max_length=200, null=True, blank=True) #address,post code
 
     service_area = models.TextField(max_length=200, null=True, blank=True) #i.e. vancouver, toronto, richmond
-    telephone = PhoneField(blank=True, help_text='Contact phone number')
+    telephone = models.TextField(blank=True, help_text='Contact phone number')
     website = models.TextField(max_length=50, null=True, blank=True)
     email = models.TextField(max_length = 254, null=True, blank=True)
-    fax = PhoneField(blank=True, help_text='Contact phone number')
+    fax = models.TextField(blank=True, help_text='Contact phone number')
     term_of_use = models.TextField(max_length=500, null=True, blank=True)
 
     def __str__(self):
