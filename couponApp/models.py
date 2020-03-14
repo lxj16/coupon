@@ -23,9 +23,19 @@ def _three_month_from_now():
     '''
     return timezone.now() + timedelta(days=90)
 
+class Brand(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=25, default='')
+    description = models.CharField(max_length=100, default='', blank=True)
+    # coupons = models.ManyToManyField(Coupon, blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Coupon(models.Model):
     code = models.CharField(max_length=50, unique=True, default=_randomIDGenerator)
-    store = models.ForeignKey('Brand', null=True, on_delete=models.CASCADE, blank = True) #company name
+    store_id = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, blank = True  ) #company id
+
     description = models.TextField() #coupon description 
     paymentPercentage = models.IntegerField(default=50)
     discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])  #coupon  %/
@@ -46,19 +56,11 @@ class Coupon(models.Model):
     fax = PhoneField(blank=True, help_text='Contact phone number')
     term_of_use = models.TextField(max_length=500, null=True, blank=True)
 
-
-
     def __str__(self):
         return f'{self.store} - {self.description} - {self.discountPercentage}%'
 
 
-class Brand(models.Model):
-    name = models.CharField(max_length=25, default='')
-    description = models.CharField(max_length=100, default='', blank=True)
-    coupons = models.ManyToManyField(Coupon, blank=True)
 
-    def __str__(self):
-        return self.name
 
 
 # promote code for the website
