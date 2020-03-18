@@ -37,7 +37,7 @@ class Coupon(models.Model):
 
     description = models.TextField() #coupon description 
     paymentPercentage = models.IntegerField(default=50)
-    discountPercentage = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])  #coupon  %/
+    discountPercentage = models.TextField(max_length=3, null=True, blank=True)  #coupon  %/
     expireDate = models.DateTimeField(default=_three_month_from_now, blank=True, null=True) #3 months from now, we need to confirm the rules  #expiry date
     used = models.BooleanField(default=False)
     user = models.TextField(max_length=100, null=True, blank=True)
@@ -52,11 +52,11 @@ class Coupon(models.Model):
     telephone = models.TextField(blank=True, help_text='Contact phone number')
     website = models.TextField(max_length=50, null=True, blank=True)
     email = models.TextField(max_length = 254, null=True, blank=True)
-    fax = models.TextField(blank=True, help_text='Contact phone number')
+    fax = models.TextField(help_text='Contact phone number', null=True, blank=True)
     term_of_use = models.TextField(max_length=500, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.store} - {self.description} - {self.discountPercentage}%'
+        return f'{self.store_id} - {self.description} - {self.discountPercentage}%'
 
 
 
