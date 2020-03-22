@@ -29,6 +29,10 @@ def index(request):
     return render(request, 'couponApp/main.html', context)
 
 
+class IndexView(TemplateView):
+    template_name = "couponApp/index.html"
+
+
 class HomeView(TemplateView):
     template_name = "couponApp/couponHome.html"
 
@@ -63,7 +67,7 @@ class CheckoutView(View):
                 orderItem.save()
                 # newOrder.items.add(orderItem)
                 total += item['subtotal']
-            
+
             # newOrder.total = total
             # newOrder.save()
             context = {
@@ -109,13 +113,14 @@ class CheckoutView(View):
 def checkoutSuccessView(request):
     return render(request, 'couponApp/checkoutSuccess.html')
 
+
 def useCoupon(request, code):
     soldCoupon_obj = SoldCoupon.objects.get(code=code)
     soldCoupon_obj.used = True
     soldCoupon_obj.save()
     orderItem_obj = soldCoupon_obj.item
 
-    context={
+    context = {
         'orderItem': orderItem_obj
     }
 
@@ -131,28 +136,28 @@ def useCoupon(request, code):
 #                            body=message_to_broadcast)
 #     return HttpResponse("messages sent!", 200)
 
-
-
-#test checkout function
+# test checkout function
 def checkout(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
             cleaned_data = form.cleaned_data
-        #...
-        #...
- 
+        # ...
+        # ...
+
             cart.clear(request)
- 
+
             request.session['order_id'] = o.id
             return redirect('process_payment')
 
-# Paypal function 
+# Paypal function
+
+
 def process_payment(request):
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
     host = request.get_host()
- 
+
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': '%.2f' % order.total_cost().quantize(
@@ -167,17 +172,16 @@ def process_payment(request):
         'cancel_return': 'http://{}{}'.format(host,
                                               reverse('payment_cancelled')),
     }
- 
+
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, 'couponApp/process_payment.html', {'order': order, 'form': form})
-
 
 
 @csrf_exempt
 def payment_done(request):
     return render(request, 'couponApp/payment_done.html')
- 
- 
+
+
 @csrf_exempt
 def payment_canceled(request):
     return render(request, 'couponApp/payment_cancelled.html')
