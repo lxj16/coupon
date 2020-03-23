@@ -112,7 +112,7 @@
           <div class="top_nav top_nav2 top_nav3">
             <div class="container">
               <!-- Logo -->
-              <div class="logo two left"><a href="index.html" id="logo"></a></div>
+              <div class="logo two left"><a href="{% url 'couponApp:index' %}" id="logo"></a></div>
 
               <ul class="right-nav one">
                 <li><a href="http://www.allcpd.com"><i class="fa fa-user"></i> Login</a></li>
@@ -142,7 +142,7 @@
                 <!-- todo: add navigation active highlight -->
                 <nav>
                   <ul class="nav navbar-nav three five">
-                    <li class="dropdown yamm-fw"> <a href="index.html">Home</a>
+                    <li class="dropdown yamm-fw"> <a href="{% url 'couponApp:index' %}">Home</a>
                     </li>
                     <li class="dropdown"> <a href="" class="dropdown-toggle"> About Us</a>
                       <ul role="menu" class="dropdown-menu">
@@ -153,7 +153,7 @@
                     </li>
                     <li class="dropdown"> <a href="https://www.visacpd.com/members"> Members</a>
                     </li>
-                    <li class="dropdown"> <a href="{% url 'couponApp:couponHome' %}"> Coupons</a>
+                    <li class="dropdown"> <a href="{% url 'couponApp:coupons' %}"> Coupons</a>
                     </li>
                     <li class="dropdown"> <a href="hiring.html"> Hiring / Franchise</a>
                     </li>
@@ -245,6 +245,43 @@
         jQuery(".preloader").delay(1000).fadeOut("slow");
       })
     })(jQuery);
+
+
+    if (jQuery('.location_search_container').length >= 1) {
+      // price: https://ipinfo.io/pricing
+      // only lookup once, check localstorage before lookup
+
+
+      let country = localStorage.getItem('country');
+      let city = localStorage.getItem('city');
+      let state = localStorage.getItem('state');
+
+
+      if (country == null || city == null || state == null) {
+        //get user location using http://ipinfo.io
+        jQuery.get("https://ipinfo.io", function (response) {
+          console.log("ip Lookup", response.city, response.country, response.region);
+          country = response.country;
+          state = response.region;
+          city = response.city;
+
+          //write into localstorage
+          localStorage.setItem('city', city);
+          localStorage.setItem('country', country);
+          localStorage.setItem('state', state);
+        }, "jsonp");
+      }
+      // assign detected geo-location to dropdown
+
+      //set country
+      jQuery('.current_location span').html(`${city}, ${state}, ${country}`)
+
+
+
+
+
+    }
+
   </script>
 
   <!-- cubeportfolio -->

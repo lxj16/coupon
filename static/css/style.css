@@ -7607,3 +7607,40 @@ form .submit-btn:hover{
 	 margin-left:20px;
 	 
  } */
+
+
+
+ /* style for coupons page  */
+ .location_search_container{
+		width: 100%;
+		display:flex;
+		padding: 35px 0px 40px 0px;
+		position: relative;
+		margin-top: 0px;
+		background: #119ee7 url(../images/parallax_lines.png) repeat center top;
+		background-color: #3f51b5;
+		align-items: space-around;
+
+ }
+
+ .location_search_container .one_third{
+	 display: flex;
+	 justify-content: space-evenly;
+ }
+
+
+.location_search_container select{
+	width: 70%;
+	min-width: 100px;
+}
+.current_location{
+	text-align: center;
+	padding: 10px;
+}
+
+.coupons_wrapper .fe-col h1{
+	font-size:20px;
+}
+.coupons_wrapper .fe-col h2{
+	font-size:15px;
+}

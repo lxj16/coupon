@@ -1,0 +1,98 @@
+{% extends "couponApp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<script type="text/javascript" src="{% static 'js/cart.js' %}" defer></script>
+<script src="//geodata.solutions/includes/countrystatecity.js" defer></script>
+<!-- big note: we can use this to get global data, but for now, only get US and canada data  -->
+<!-- <script src="{% static 'js/countrystatecity.js' %} " defer></script> -->
+
+
+<section class="header-section">
+   <div class="page_header">
+      <div class="container">
+         <h2 class="align_center pagetitle">Our Courses</h2>
+         <div class="pagenation"><a href="{% url 'couponApp:index' %}">Home</a> <i>/</i> Our Courses
+         </div>
+      </div>
+   </div>
+</section>
+<!-- end page header -->
+<div class="clearfix"></div>
+
+
+
+<section class="location_search_container">
+   <div class="one_third">
+      <label for="countryId">Country: </label>
+      <select name="country" class="countries" id="countryId">
+         <option value="">Select Country</option>
+      </select>
+   </div>
+   <div class="one_third">
+      <label for="stateId">State:</label>
+      <select name="state" class="states order-alpha" id="stateId">
+         <option value="">Select State</option>
+      </select>
+
+   </div>
+   <div class="one_third last">
+      <label for="cityId">City: </label>
+      <select name="city" class="cities" id="cityId">
+         <option value="">Select City</option>
+      </select>
+   </div>
+</section>
+<div class="current_location">The system detected your current location: <span></span></div>
+<div class="clearfix"></div>
+
+<!-- <section class="section2">
+   <div class="container">
+      <div class="title4">
+         <h2><span class="line"></span>Highlight of the week</h2>
+      </div>
+      <div class="clearfix margin_top4"></div>
+   </div>
+</section> -->
+
+
+<section class="section2 coupons_wrapper">
+   <div class="container">
+      <div class="title4">
+         <h2><span class="line"></span>
+            {{category}}
+            <br>
+            <em>Show all coupons</em>
+         </h2>
+      </div>
+
+      <div class="clearfix margin_top4"></div>
+
+      {% for coupon in coupons %}
+
+      <div class="features" data-anim-type="fade-in-left" data-anim-delay="200">
+         <div class="fe-col">
+            <div class="fe-col-wrp type1">
+               <!-- <h1>{{coupon}}</h1> -->
+               <h2>{{coupon.discountPercentage}}</h2>
+               <p>{{coupon.description}}</p>
+               <div class="clearfix margin_top2"></div>
+               <div class="readmore"><a class="btn linebtn two add-to-cart-btn" data-code={{coupon.code}}
+                     data-brand={{brand}} data-coupon="{{coupon}}" data-discount={{coupon.discountPercentage}}>Add
+                     to Cart</a></div>
+            </div>
+         </div>
+      </div>
+      {% endfor %}
+      <!--end col 1 -->
+
+   </div>
+   <div class="clearfix margin_top10"></div>
+</section>
+
+
+
+
+{% endblock content %}

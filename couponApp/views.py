@@ -1,6 +1,8 @@
+import string
+import random
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View, TemplateView
-from .models import Coupon, Brand, OrderItem, Order, SoldCoupon
+from .models import Coupon, Brand, OrderItem, Order, SoldCoupon, Category
 from datetime import timedelta, date
 from django.utils import timezone
 from django.core.mail import send_mail, EmailMultiAlternatives
@@ -34,15 +36,40 @@ class IndexView(TemplateView):
 
 
 class HomeView(TemplateView):
-    template_name = "couponApp/couponHome.html"
+    template_name = "couponApp/coupons.html"
 
     def get_context_data(self, *args):
         brands = Brand.objects.all()
+        coupons = Coupon.objects.all()
+
+        # category = ['Restaurant Coupons', 'Tourist Attraction Coupons', 'Shopping & Services Coupons', 'Home Renovation Coupons', 'Mattress Coupons', 'Grocery & Liquor Coupons', 'Auto Repair Coupons', 'Chimney Demolition Coupons', 'Home & Garden Coupons', 'Sport & Fitness Coupons', 'Fun & Entertainment Coupons', 'Health & Beauty Salons Coupons', 'Travel & Tour Coupons']
+        category = ['Restaurant Coupons', 'Tourist Attraction Coupons']
+
+        couponByCategory = {}
+        for c in category:
+            couponByCategory[c] = coupons.filter(category=c).all()[:3]
+
         context = {
-            'brands': brands
+            'brands': brands,
+            'coupons': coupons,
+            'categories': category,
+            'couponByCategory': couponByCategory
         }
+
+        print('category', couponByCategory)
         return context
         # return render(request, self.template_name, context)
+
+
+def couponByCategory(request, category):
+    coupons = Coupon.objects.all()
+    all_coupons = coupons.filter(category=category).all()
+    context = {
+        'coupons': all_coupons,
+        'category': category
+    }
+
+    return render(request, 'couponApp/couponsByCategory.html', context)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

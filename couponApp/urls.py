@@ -4,7 +4,9 @@ from . import views
 app_name = 'couponApp'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('coupons/', views.HomeView.as_view(), name='couponHome'),
+    path('coupons/', views.HomeView.as_view(), name='coupons'),
+    path('coupons/<str:category>',
+         views.couponByCategory, name='couponByCategory'),
     path('checkout/', views.CheckoutView.as_view(),  name='checkout'),
     path('checkout/success/', views.checkoutSuccessView,  name='checkoutSuccess'),
     path('use/<str:code>', views.useCoupon, name='useCoupon'),
