@@ -10,11 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import logging.config
 import os
-
-
-
-
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -30,7 +27,9 @@ SECRET_KEY = 't(6$v7mm_y0uh#ze&8pu)482(&q#8j@wbv_!-08s@+-s!y010x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "18.222.143.27"
+]
 
 
 # Application definition
@@ -90,7 +89,7 @@ DATABASES = {
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql', 
+#         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'coupon',
 #         'USER': 'root',
 #         'PASSWORD': 'Olivia123.',
@@ -98,7 +97,6 @@ DATABASES = {
 #         'PORT': '3306',
 #     }
 # }
-
 
 
 # Password validation
@@ -147,7 +145,6 @@ PAYPAL_RECEIVER_EMAIL = 'info@visacpd.com'
 PAYPAL_TEST = True
 
 
-
 LOGGING_CONFIG = None
 LOGGING = {
     'version': 1,
@@ -169,15 +166,14 @@ LOGGING = {
         '': {
             'handlers': ['console'],
         },
-        #'django.request': {
+        # 'django.request': {
         #    'handlers': ['console'],
         #    'level': 'DEBUG',
         #    'propagate': False,
-        #},
+        # },
     }
-}  
+}
 
-import logging.config
 logging.config.dictConfig(LOGGING)
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -185,4 +181,3 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'lxjdemos@gmail.com'
 EMAIL_HOST_PASSWORD = 'DjangoLul'
-
