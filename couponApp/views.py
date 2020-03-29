@@ -56,7 +56,6 @@ class HomeView(TemplateView):
             'couponByCategory': couponByCategory
         }
 
-        print('category', couponByCategory)
         return context
         # return render(request, self.template_name, context)
 
@@ -181,6 +180,7 @@ def checkout(request):
 
 
 def process_payment(request):
+    print('called process_payment')
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
     host = request.get_host()

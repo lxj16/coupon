@@ -1345,13 +1345,14 @@ ul.social_icons.four li a:hover{
 }
 .fe-col-wrp.type1 {
     margin: 0;
-    padding:50px 15px;
+    padding:20px 10px;
     position: relative;
     text-align: center;
     width: 100%;
 	color:#dadada;
 	transition: all 0.3s ease-out 0s;
 	background:#eeeeee;
+	min-height: 250px;
 }
 .fe-col-wrp.type1:hover h1, .fe-col-wrp.type1.active h1{
 	color:#FFF;
@@ -6738,6 +6739,13 @@ h2.post-title{
 	font-size: 15px;
 	line-height: 60px;
 	background-color: #f2f2f2;
+	
+}
+.table-list3 td.checkout_name{
+	max-width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .table-list3 td a {
 	padding: 8px 30px;

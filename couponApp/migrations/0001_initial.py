@@ -19,7 +19,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(default='', max_length=25)),
-                ('description', models.CharField(blank=True, default='', max_length=100)),
+                ('description', models.CharField(
+                    blank=True, default='', max_length=100)),
             ],
         ),
         migrations.CreateModel(
@@ -27,67 +28,85 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(default='', max_length=25)),
-                ('description', models.CharField(blank=True, default='', max_length=100)),
+                ('description', models.CharField(
+                    blank=True, default='', max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='Coupon',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(default=couponApp.models._randomIDGenerator, max_length=50, unique=True)),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('code', models.CharField(
+                    default=couponApp.models._randomIDGenerator, max_length=50, unique=True)),
                 ('category', models.TextField(blank=True, max_length=100, null=True)),
                 ('description', models.TextField()),
                 ('paymentPercentage', models.IntegerField(default=50)),
-                ('discountPercentage', models.TextField(blank=True, max_length=3, null=True)),
-                ('expireDate', models.DateTimeField(blank=True, default=couponApp.models._three_month_from_now, null=True)),
+                ('discountPercentage', models.TextField(
+                    blank=True, max_length=3, null=True)),
+                ('expireDate', models.DateTimeField(blank=True,
+                                                    default=couponApp.models._three_month_from_now, null=True)),
                 ('used', models.BooleanField(default=False)),
                 ('user', models.TextField(blank=True, max_length=100, null=True)),
                 ('img', models.TextField(blank=True, null=True)),
                 ('country', models.TextField(blank=True, max_length=50, null=True)),
                 ('address', models.TextField(blank=True, max_length=200, null=True)),
-                ('service_area', models.TextField(blank=True, max_length=200, null=True)),
-                ('telephone', models.TextField(blank=True, help_text='Contact phone number')),
+                ('service_area', models.TextField(
+                    blank=True, max_length=200, null=True)),
+                ('telephone', models.TextField(
+                    blank=True, help_text='Contact phone number')),
                 ('website', models.TextField(blank=True, max_length=50, null=True)),
                 ('email', models.TextField(blank=True, max_length=254, null=True)),
-                ('fax', models.TextField(blank=True, default=False, help_text='Contact phone number', null=True)),
-                ('term_of_use', models.TextField(blank=True, max_length=500, null=True)),
-                ('store_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='couponApp.Brand')),
+                ('fax', models.TextField(blank=True, default=False,
+                                         help_text='Contact phone number', null=True)),
+                ('term_of_use', models.TextField(
+                    blank=True, max_length=500, null=True)),
+                ('store_id', models.ForeignKey(blank=True, null=True,
+                                               on_delete=django.db.models.deletion.CASCADE, to='couponApp.Brand')),
             ],
         ),
         migrations.CreateModel(
             name='OrderItem',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('user', models.TextField(null=True)),
                 ('quantity', models.IntegerField(default=1)),
                 ('used', models.BooleanField(default=False)),
                 ('estimatePurchaseAmount', models.FloatField(null=True)),
-                ('coupon', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='couponApp.Coupon')),
+                ('coupon', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='couponApp.Coupon')),
             ],
         ),
         migrations.CreateModel(
             name='Promote',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.CharField(max_length=50, unique=True)),
                 ('expireDate', models.DateTimeField()),
-                ('discountPercentage', models.IntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)])),
+                ('discountPercentage', models.IntegerField(validators=[
+                 django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)])),
                 ('active', models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(
             name='SoldCoupon',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(default=couponApp.models._randomIDGenerator, max_length=50, unique=True)),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('code', models.CharField(
+                    default=couponApp.models._randomIDGenerator, max_length=50, unique=True)),
                 ('used', models.BooleanField(default=False)),
-                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='couponApp.OrderItem')),
+                ('item', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='couponApp.OrderItem')),
             ],
         ),
         migrations.CreateModel(
             name='Order',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('user', models.TextField(max_length=100)),
                 ('ordered_date', models.DateTimeField(null=True)),
                 ('total', models.FloatField(null=True)),

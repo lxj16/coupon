@@ -80,7 +80,9 @@ class Coupon(models.Model):
     term_of_use = models.TextField(max_length=500, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.store_id} - {self.description} - {self.discountPercentage}%'
+        # note: There is a bug with data import, the discountPercentage shoUld be an integer but not string, for now, use paymentPercentage to demo the functionality
+        # return f'{self.store_id} - {self.description} - {self.discountPercentage}%'
+        return f'{self.store_id} - {self.description} - {self.paymentPercentage}%'
 
 
 # promote code for the website

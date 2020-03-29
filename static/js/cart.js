@@ -18,18 +18,18 @@ function _renderLocalStorageAsJson(localstorage_key) {
 }
 
 function _markButtonAsAdded(couponCode) {
-  console.log("couponCode = ", couponCode);
+  console.log('couponCode = ', couponCode);
   $(`.add-to-cart-btn[data-code=${couponCode}]`)
-    .html("added")
-    .removeClass("add-to-cart-btn");
+    .html('added')
+    .removeClass('add-to-cart-btn');
 }
 
 // todo: after refresh , same coupono can be selected again, change quantity
 function restoreSelectedCoupon() {
-  let shoppingCart = _renderLocalStorageAsJson("GSC-coupons");
+  let shoppingCart = _renderLocalStorageAsJson('GSC-coupons');
   if (shoppingCart.length) {
     shoppingCart.forEach(coupon => {
-      _markButtonAsAdded(coupon["code"]);
+      _markButtonAsAdded(coupon['code']);
     });
     //update shopping cart number
 
@@ -42,30 +42,31 @@ function updateShoppingCartNum() {
   // window.localStorage.setItem("user", JSON.stringify(person));
   // window.localStorage.getItem('user');
 
-  let shoppingCart = _renderLocalStorageAsJson("GSC-coupons");
+  let shoppingCart = _renderLocalStorageAsJson('GSC-coupons');
   if (shoppingCart.length) {
-    $("#cart-num").html(shoppingCart.length);
+    $('#cart-num').html(shoppingCart.length);
   }
 }
 
 function addToShoppingCartHandler() {
-  $(".add-to-cart-btn").click(function() {
-    $(this).html("added");
-    $(this).removeClass("add-to-cart-btn");
+  $('.add-to-cart-btn').click(function() {
+    $(this).html('added');
+    $(this).removeClass('add-to-cart-btn');
 
     // get coupon id
-    const couponCode = $(this).attr("data-code");
-    const couponName = $(this).attr("data-coupon");
-    const couponDiscount = $(this).attr("data-discount");
+    const couponCode = $(this).attr('data-code');
+    const couponName = $(this).attr('data-coupon');
+    console.log('');
+    const couponDiscount = $(this).attr('data-discount');
 
-    let shoppingCart = _renderLocalStorageAsJson("GSC-coupons");
+    let shoppingCart = _renderLocalStorageAsJson('GSC-coupons');
 
     if (shoppingCart.length) {
       // not empty, append to local storage
-      shoppingCart.push({ code: couponCode, couponName: couponName, couponDiscount: couponDiscount});
-      window.localStorage.setItem("GSC-coupons", JSON.stringify(shoppingCart));
+      shoppingCart.push({ code: couponCode, couponName: couponName, couponDiscount: couponDiscount });
+      window.localStorage.setItem('GSC-coupons', JSON.stringify(shoppingCart));
     } else {
-      window.localStorage.setItem("GSC-coupons", JSON.stringify([{code: couponCode, couponName: couponName, couponDiscount: couponDiscount}]));
+      window.localStorage.setItem('GSC-coupons', JSON.stringify([{ code: couponCode, couponName: couponName, couponDiscount: couponDiscount }]));
       // empty, write to shopping cart
     }
     // if (shoppingCart.length) {

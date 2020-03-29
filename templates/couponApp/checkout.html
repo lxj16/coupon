@@ -76,15 +76,28 @@
                <input type="email" name="send_to_email" placeholder="enter email" /><br />
                <p><b>Total: $<span id="checkout_total">some value</span></b></p>
                <!-- todo: change this pyapal button  -->
-               {% comment %} <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+
+               <form method="post" target="_blank" action="https://www.paypal.com/cgi-bin/webscr">
+                  <input type="hidden" name="cmd" value="_xclick">
+                  <input type="hidden" name="business" value="info@visacpd.com">
+                  <input type="hidden" name="item_name" value="XXXX">
+                  <input type="hidden" name="notify_url" value="http://127.0.0.1:8000/coupon/process-payment" />
+                  <input type="hidden" id="buybuttonid" name="custom" value="XXXXX" />
+                  <input type="hidden" name="amount" value="0.01">
+                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
+                     name="submit" alt="PayPal - The safer, easier way to pay online!" id="buyBtn">
+               </form>
+
+               <!-- <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                   <input type="hidden" name="cmd" value="_s-xclick">
                   <input type="hidden" name="hosted_button_id" value="TYBGB698D4VS4">
                   <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
                      name="submit" alt="PayPal - The safer, easier way to pay online!">
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-               </form> {% endcomment %}
+               </form>
                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
-                  name="submit" alt="PayPal - The safer, easier way to pay online!" id="buyBtn">
+                  name="submit" alt="PayPal - The safer, easier way to pay online!" id="buyBtn"> -->
             </div>
             <div id="payment_coupon" class="">
                <!-- todo: promotion code is not working  -->
@@ -94,9 +107,11 @@
             </div>
          </div>
 
-         test paypal button:
-         <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
-         <script>paypal.Buttons().render('body');</script>
+
+
+
+
+
       </div>
    </div>
 </section>

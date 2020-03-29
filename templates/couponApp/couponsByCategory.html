@@ -78,10 +78,15 @@
                <!-- <h1>{{coupon}}</h1> -->
                <h2>{{coupon.discountPercentage}}</h2>
                <p>{{coupon.description}}</p>
-               <div class="clearfix margin_top2"></div>
-               <div class="readmore"><a class="btn linebtn two add-to-cart-btn" data-code={{coupon.code}}
-                     data-brand={{brand}} data-coupon="{{coupon}}" data-discount={{coupon.discountPercentage}}>Add
-                     to Cart</a></div>
+
+               <div class="readmore">
+                  <a class="btn linebtn two add-to-cart-btn" data-code={{coupon.code}} data-brand="{{brand}}"
+                     data-coupon="{{coupon}}" data-discount="{{coupon.paymentPercentage}}">
+                     <!-- # note: There is a bug with data import, the discountPercentage shold be an integer but not string, for now, use paymentPercentage to demo the functionality -->
+                     <!-- <a class="btn linebtn two add-to-cart-btn" data-code={{coupon.code}} data-brand="{{brand}}" data-coupon="{{coupon}}" data-discount="{{coupon.discountPercentage}}"> -->
+                     Add to Cart
+                  </a>
+               </div>
             </div>
          </div>
       </div>
