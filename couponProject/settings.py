@@ -28,7 +28,9 @@ SECRET_KEY = 't(6$v7mm_y0uh#ze&8pu)482(&q#8j@wbv_!-08s@+-s!y010x'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "18.222.143.27"
+    "18.191.25.47",
+    "www.couponmagazine.ca"
+    "www.coupon-magazine.com"
 ]
 
 
