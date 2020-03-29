@@ -29,7 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "18.191.25.47",
-    "www.couponmagazine.ca"
+    "couponmagazine.ca",
+    "coupon-magazine.com",
+    "www.couponmagazine.ca",
     "www.coupon-magazine.com"
 ]
 
