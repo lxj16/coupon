@@ -20,7 +20,7 @@ lazy-object-proxy==1.4.1
 lxml==4.4.1
 mccabe==0.6.1
 phonenumbers==8.11.5
-Pillow==6.2.1
+Pillow==9.3.0
 pycodestyle==2.5.0
 pygame==1.9.6
 PyJWT==1.7.1
